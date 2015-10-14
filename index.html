@@ -1,0 +1,188 @@
+<html>
+	<head ms-skip>
+		<meta charset="utf-8">
+<link rel="icon" type="image/x-icon" href="/web/favicon.ico">
+		<script src="http://ued.qunar.com/oniui/avalon.js"></script>
+		<script>
+			avalon.config({loader: false})
+            var _v = +(new Date())
+		</script>
+        <link rel="stylesheet" href="/web/style.css">
+	</head>
+	<body 
+          ms-controller="download">
+          <div 
+               ms-controller="release">
+              <div 
+                   ms-widget="loading,loading"></div>
+              <p class="ad">
+                  <a target="_blank" href="http://npm.corp.qunar.com/package/@qnpm/oni"><font color="red">安装命令行工具</font></a>
+              </p>
+              <div 
+                   ms-widget="tab" class="menu-tab">
+                   <div>
+                       <div>
+                          <div ms-view></div>
+                       </div>
+                       <div>
+                          <div ms-view="release"></div>
+                       </div>
+                       <div>
+                         <div ms-view="fekit"></div>
+                       </div>
+                   </div>
+              </div>
+                <div class="login"  
+                   ms-widget="dialog,releaseDialog">
+                   <p>
+                       <label for="user">用户名</label><input type="text" 
+                              ms-duplex="user" id="user">
+                   </p>
+                   <p>
+                       <label for="password">密<span class="spacer"></span>码</label><input type="password" id="password" 
+                              ms-duplex="password">
+                   </p>
+                </div>
+          </div>
+	</body>
+</html>
+<link rel="stylesheet" href="web/main.css">
+<script src="web/main.js"></script>
+<script src="web/dataFormat.js"></script>
+<script src="web/download.js"></script>
+<script>
+    var release = avalon.define("release", function (vm) {
+        vm.dialog = {
+            title: "发布组件前请登录",
+            width: "261px",
+            onConfirm: function() {
+                vm.doLogin()
+                return false
+            }
+        }
+        vm.loading = {
+            type: "img",
+            modalBackground: "#ccc",
+            modalOpacity: 0.4,
+            toggle: false
+        }
+        vm.tab = {
+            event: "click",
+            titleCutCount: 1000,
+            tabs: [
+                {
+                    title: "下载"
+                },
+                {
+                    title: "发布"
+                },
+                {
+                  title: "发布oniui到fekit module"
+                }
+            ]
+        }
+        vm.user = avalon.store.get("user")
+        vm.password = avalon.store.get("password")
+        vm.login = function(f) {
+            avalon.vmodels.releaseDialog.toggle = f ? false : true
+        }
+        vm.doLogin = function() {
+            if(!release.user || !release.password) return alert("用户名和密码不能为空")
+            ajaxSend({
+                data: {
+                    user: release.user,
+                    password: release.password,
+                    action: "login"
+                }
+            }).done(function(e) {
+                if(e && e.status == 0) {
+                    vm.login("hide dialog")
+                    avalon.store.set("user", release.user)
+                    avalon.store.set("password", release.password)
+                } else {
+                    alert(e && e.message || "出错鸟，请重新登录")
+                }
+            })
+        }
+        vm.release = function(e, fekit) {
+            e.preventDefault()
+            var data = {
+                type: release.rtype,
+                list: release.rversion,
+                comment: release.rcomment,
+                action: "release"
+            }
+            if(fekit) {
+                if(release.fekitVersion && release.fekitVersion.replace(/[0-9]+\.[0-9]+\.[0-9]+/g, '')) return alert("错误的版本号，必须是number.number.number这样的格式")
+                data = {
+                    action: "fekitPublish",
+                    type: "oni",
+                    target: release.rtarget || "",
+                    version: release.fekitVersion || ""
+                }
+            } else {
+                if(!release.user || !release.password) return vm.login()
+                if(release.rversion.replace(/([a-zA-Z_]+@)?[0-9]+\.[0-9]+\.[0-9]+(,)?/g, "")) return alert("组件及版本格式错误")
+            }
+            avalon.vmodels.loading.toggle = true
+            ajaxSend({
+                data: avalon.mix({
+                    user: release.user,
+                    password: release.password
+                }, data)
+            }).done(function(e) {
+                if(e && e.status == 0) {
+                    release.rversion = ""
+                    release.rcomment = ""
+                    alert(e && e.log || "发布成功")
+                    // location.reload()
+                } else {
+                    if(e && e.status == 250) {
+                        vm.login()
+                    } else {
+                        alert(e && e.message || "出错鸟")
+                    }
+                }
+              avalon.vmodels.loading.toggle = false
+            })
+        }
+
+        vm.rtype = "oni"
+        vm.rversion = ""
+        vm.rcomment = ""
+        vm.fekitVersion = ""
+        vm.rtarget = "fekitModule"
+        vm.targets = [["fekitModule", "未合并版"], ["fekitPack", "合并版"]]
+    })
+    function ajaxSend(opt) {
+        var prom = avalon.ajax(avalon.mix({
+            data: {},
+            url: "/ajax",
+            type: "get",
+            dataType: "json"
+        }, opt || {}))
+        prom.fail(function(e) {
+            alert(e && e.statusText || "出错了")
+        })
+        return prom
+    }
+    avalon.state("home", {
+        url: "/",
+        views: {
+            "": {
+                templateUrl: "web/tpl/index.html"
+            },
+            "release": {
+                templateUrl: "web/tpl/release.html"
+            },
+            "fekit": {
+                templateUrl: "web/tpl/fekit.html"
+            }
+        }
+    })
+    avalon.history.start({
+        prefix: "/",
+        fireAnchor: false
+    })
+    avalon.scan()
+</script>

@@ -1,0 +1,63 @@
+.item label {
+    cursor: pointer;
+}
+.item select {
+    width: 80px;
+}
+.list {
+    float: left;
+    width: 140px;
+    min-height: 104px;
+    overflow: hidden;
+}
+.menu {
+    margin-left: 150px;
+    text-align: left;
+}
+.ad {
+    margin: 0;
+    padding: 10px 0;
+    width: 300px;
+}
+.item p {
+    color: red;
+    margin: 0;
+    padding: 0;
+}
+.item input {
+    margin-left: 0;
+    vertical-align: bottom;
+}
+.history p{
+    margin: 0;
+}
+.menu-tab li {
+    width: auto;
+}
+form label {
+    width: 99px;
+    display: inline-block;
+    padding-left: 2px;
+}
+form .item {
+    text-align: left;
+    padding: 5px 0;
+}
+form textarea {
+    vertical-align: top;
+}
+.spacer {
+    margin-right: 13px;
+}
+.login label {
+    margin-right: 5px;
+}
+.tips p {
+    text-align: left;
+    margin:0;
+    color: red;
+    padding-left: 2px;
+}
+html body {
+    background: #fff;
+}

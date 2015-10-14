@@ -1,0 +1,67 @@
+<div 
+     ms-controller="download">
+            
+    <div class="list">
+        <div class="item">
+            <div ms-widget="tree,tree2"></div>
+        </div>
+    </div>
+    <div class="menu">
+        <div class="item">
+            <label for="type">选择UI库</label>
+            <select name="type" id="type" 
+                    ms-duplex="type">
+                <option 
+                        ms-repeat-t="types" ms-value="t">{{t}}</option>
+            </select>
+        </div>
+        <div class="item">
+            <label for="format">输出格式</label>
+            <select name="format" id="format" 
+                    ms-duplex="outputFormat">
+                <option 
+                        ms-repeat-f="fs" ms-value="f">{{f}}</option>
+            </select>
+        </div>
+        <div class="item">
+            <label for="combo">合并代码</label>
+            <input type="checkbox" name="combo" id="combo" 
+                   ms-duplex="combo">
+        </div>
+        <div class="item">
+            <label for="https">https版本</label>
+            <input type="checkbox" name="https" id="https" 
+                   ms-duplex="https">
+        </div>
+        <div class="item">
+            <label for="dependence">计算依赖</label>
+            <input type="checkbox" name="dependence" id="dependence" 
+                   ms-duplex="dependence">
+        </div>
+        <div class="item">
+            <label for="checkall">全部勾选</label>
+            <input type="checkbox" name="checkall" id="checkall" 
+                   ms-duplex="checkall">
+        </div>
+        <div class="item">
+            <input type="button"
+                   ms-click="download" value="下载组件">
+        </div>
+        <div class="item">
+            <p>
+                * 生产环境为fekit，输出格式请选择nodejs
+            </p>
+            <p>
+                * 这里的kami库不是官方，不推荐
+            </p>
+            <p>
+                * 下载的代码包内，是不包含avalon的
+            </p>
+        </div>
+        <div class="history">
+            <p><b>历史发布：</b></p>
+            <p 
+               ms-repeat="msg">{{el|html}}</p>
+        </div>
+    </div>
+</div>

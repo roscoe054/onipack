@@ -1,0 +1,32 @@
+<form ms-submit="release($event, 'fekit')">
+    <div class="item">
+        <p class="tips">
+        请确保最新的github上的oniui代码已经通过“发布”tab发布到发布工具维护的仓库，本tab发布到fekit的操作是依赖release仓库的，另外请每次同时发布打包的和未打包的分别到oniui-pack和oniui，确保两边每个版本号下的代码同步。
+        </p>
+        <p class="tips">
+        在该tab操作成功之后，请手动拉取oniui和oniui-pack的最新代码，手动执行fekit publish。</p>
+        <p class="tips">
+        oniui和oniui-pack内所引用的组件是通过config/exports.json来维护【如果没有配置A组件，但是配置的B组件引用了A，那么打包的时候会自动把A组件包含进去】，如果需要新增组件引用，截止目前请先同时修改两个仓库的exports.json，然后push到远程仓库，再在该tab下操作，最后拉取代码执行fekit publish。
+        </p>
+    </div>
+    <div class="item">
+        <label for="rtype">输入版本号：</label>
+        <input type="text" placerholder="请输入*.*.*格式的版本号" 
+               ms-duplex="fekitVersion">
+        <p class="tips">如果不填，会小版本自增</p>
+    </div>
+    <div class="item">
+        <label for="rtype">选择是否合并：</label>
+        <select name="target" id="target" 
+                ms-duplex="rtarget">
+            <option 
+                    ms-repeat-t="targets" ms-value="t[0]">{{t[1]}}</option>
+        </select>
+        <p class="tips">合并则会发布到oniPack版仓库</p>
+    </div>
+    <div class="item">
+        <label> </label>
+        <button 
+                ms-click="release($event, 'fekit')">发布</button>
+    </div>
+</form>

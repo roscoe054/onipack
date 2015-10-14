@@ -1,0 +1,33 @@
+{
+  "name": "packer",
+  "version": "1.0.0",
+  "description": "packer,releaser for oni,kami",
+  "main": "index.js",
+  "dependencies": {
+    "browserify": "^9.0.3",
+    "commander": "^2.7.1",
+    "archiver": "^0.14.3",
+    "express": "^4.12.3",
+    "extend": "^2.0.1",
+    "fs-extra": "^0.17.0",
+    "glob-expand": "^0.1.0",
+    "json-format": "^0.0.1",
+    "madge": "^0.4.1",
+    "minimist": "^1.1.1",
+    "modules-cat": "^0.0.6",
+    "promise": "^6.1.0",
+    "request-promise": "^0.4.2",
+    "requirejs": "^2.1.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.corp.qunar.com:fed/onipack.git"
+  },
+  "author": "skipper",
+  "license": "ISC"
+}

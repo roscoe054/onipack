@@ -1,0 +1,28 @@
+<form ms-submit="release($event)">
+    <div class="item">
+        <label for="rtype">选择UI库</label>
+        <select name="rtype" id="rtype" 
+                ms-duplex="rtype">
+            <option 
+                    ms-repeat-t="types" ms-value="t">{{t}}</option>
+        </select>
+    </div>
+    <div class="item">
+        <label for="rversion">输入组件及版本</label>
+        <textarea placeholder="请使用uiname@*.*.*语法，如果不指定uiname则是全量发布，也可以uiname@*.*.*,*.*.*"  
+                  ms-duplex="rversion" name="rversion" id="rversion" cols="30" rows="10"></textarea>
+    </div>
+    <div class="item">
+        <label for="rcomment">填写发布信息</label>
+        <textarea placeholder="请尽量填写发布信息"  
+                  ms-duplex="rcomment" name="rcomment" id="rcomment" cols="30" rows="10"></textarea>
+    </div>
+    <div class="item">
+        <label> </label>
+        <button 
+                ms-click="release($event)">发布</button>
+    </div>
+    <div class="tips">
+        <p>请慎用*.*.*全量发布语法，尽量发布改动的组件uiname@verion</p>
+    </div>
+</form>
